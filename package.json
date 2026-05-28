@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro dev",
     "build": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro check && cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro build && pagefind --site dist",
-    "preview": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro preview"
+    "preview": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro preview",
+    "verify:deploy": "node scripts/verify-deploy.mjs"
   },
   "dependencies": {
     "@astrojs/check": "0.9.9",

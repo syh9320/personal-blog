@@ -8,6 +8,7 @@ A static-first personal blog built with Astro, MDX, Tailwind CSS, Content Collec
 npm install
 npm run dev
 npm run build
+npm run verify:deploy
 npm run preview
 ```
 
@@ -72,6 +73,15 @@ dist
 ```
 
 Set `PUBLIC_SITE_URL` in the deployment platform before production launch.
+
+Before the first public deployment, run a production-style build with the same
+URL you will configure in the platform, then verify the generated static files:
+
+```powershell
+$env:PUBLIC_SITE_URL="https://blog.yourname.dev"
+npm run build
+npm run verify:deploy
+```
 
 See `docs/deployment.md` for Cloudflare Pages, Vercel, comments, analytics, and mainland China deployment notes.
 

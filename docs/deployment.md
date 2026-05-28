@@ -24,6 +24,18 @@ PUBLIC_SITE_URL=https://your-domain.example
 
 This controls canonical URLs, RSS links, sitemap URLs, robots.txt links, and share metadata. If it is not set, the project falls back to `https://example.com`.
 
+## Deploy verification
+
+Before the first public deployment, build with the same URL that will be set in the deployment platform:
+
+```powershell
+$env:PUBLIC_SITE_URL="https://blog.yourname.dev"
+npm run build
+npm run verify:deploy
+```
+
+The verifier checks that the expected static files exist and that canonical, RSS, sitemap, and robots URLs are using `PUBLIC_SITE_URL`.
+
 ## Cloudflare Pages
 
 Use these settings:
