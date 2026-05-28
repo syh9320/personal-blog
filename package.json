@@ -1,0 +1,29 @@
+{
+  "name": "personal-blog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro dev",
+    "build": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro check && cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro build && pagefind --site dist",
+    "preview": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.9.9",
+    "@astrojs/mdx": "5.0.6",
+    "@astrojs/rss": "4.0.18",
+    "@astrojs/sitemap": "3.7.3",
+    "@tailwindcss/typography": "0.5.19",
+    "autoprefixer": "10.4.23",
+    "astro": "6.3.3",
+    "cross-env": "10.1.0",
+    "pagefind": "1.5.2",
+    "postcss": "8.5.14",
+    "tailwindcss": "3.4.17",
+    "typescript": "6.0.3"
+  },
+  "devDependencies": {},
+  "overrides": {
+    "vite": "^7.3.3"
+  }
+}

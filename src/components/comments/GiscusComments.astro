@@ -1,0 +1,29 @@
+---
+import { siteConfig } from "@/config/site";
+
+const config = siteConfig.comments.giscus;
+const isConfigured = Boolean(config.repo && config.repoId && config.category && config.categoryId);
+---
+
+{
+  isConfigured ? (
+    <script
+      is:inline
+      src="https://giscus.app/client.js"
+      data-repo={config.repo}
+      data-repo-id={config.repoId}
+      data-category={config.category}
+      data-category-id={config.categoryId}
+      data-mapping={config.mapping}
+      data-reactions-enabled={config.reactionsEnabled ? "1" : "0"}
+      data-emit-metadata="0"
+      data-input-position={config.inputPosition}
+      data-theme="preferred_color_scheme"
+      data-lang="zh-CN"
+      crossorigin="anonymous"
+      async
+    />
+  ) : (
+    <p class="text-sm text-text-muted">Giscus comments are enabled but not configured.</p>
+  )
+}

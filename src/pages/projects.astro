@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getProjects } from "@/lib/content";
+
+const projects = await getProjects();
+---
+
+<BaseLayout title="Projects" description="个人项目展示">
+  <section class="rounded-lg border border-border-soft bg-surface p-6 shadow-card">
+    <p class="text-sm font-medium text-accent-strong">Projects</p>
+    <h1 class="mt-3 text-3xl font-semibold text-text-primary">项目</h1>
+    <p class="mt-3 max-w-2xl text-sm leading-6 text-text-muted">
+      这里展示长期维护的项目、实验和作品。项目内容同样来自结构化 collection，方便持续更新。
+    </p>
+  </section>
+
+  <section class="mt-8 grid gap-5 md:grid-cols-2">
+    {projects.map((project) => <ProjectCard project={project} />)}
+  </section>
+</BaseLayout>

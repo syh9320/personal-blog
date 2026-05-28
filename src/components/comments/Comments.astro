@@ -1,0 +1,22 @@
+---
+import { siteConfig } from "@/config/site";
+import GiscusComments from "@/components/comments/GiscusComments.astro";
+import TwikooComments from "@/components/comments/TwikooComments.astro";
+import WalineComments from "@/components/comments/WalineComments.astro";
+
+const comments = siteConfig.comments;
+const provider = comments.provider as "giscus" | "twikoo" | "waline";
+---
+
+{
+  comments.enabled && (
+    <section class="mt-8 rounded-lg border border-border-soft bg-surface p-6 shadow-card">
+      <h2 class="text-lg font-semibold text-text-primary">评论</h2>
+      <div class="mt-5">
+        {provider === "giscus" && <GiscusComments />}
+        {provider === "twikoo" && <TwikooComments />}
+        {provider === "waline" && <WalineComments />}
+      </div>
+    </section>
+  )
+}

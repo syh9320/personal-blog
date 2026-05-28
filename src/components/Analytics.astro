@@ -1,0 +1,38 @@
+---
+import { siteConfig } from "@/config/site";
+
+const analytics = siteConfig.analytics;
+const provider = analytics.provider as "cloudflare" | "umami" | "plausible" | "google-analytics";
+---
+
+{
+  analytics.enabled && provider === "cloudflare" && analytics.cloudflare.token && (
+    <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token":"${analytics.cloudflare.token}"}`} />
+  )
+}
+
+{
+  analytics.enabled && provider === "umami" && analytics.umami.websiteId && (
+    <script is:inline defer src={analytics.umami.scriptUrl} data-website-id={analytics.umami.websiteId} />
+  )
+}
+
+{
+  analytics.enabled && provider === "plausible" && analytics.plausible.domain && (
+    <script is:inline defer data-domain={analytics.plausible.domain} src={analytics.plausible.scriptUrl} />
+  )
+}
+
+{
+  analytics.enabled && provider === "google-analytics" && analytics.googleAnalytics.measurementId && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${analytics.googleAnalytics.measurementId}`} />
+      <script is:inline define:vars={{ measurementId: analytics.googleAnalytics.measurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+        gtag("config", measurementId);
+      </script>
+    </>
+  )
+}

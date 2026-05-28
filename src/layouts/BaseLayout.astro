@@ -1,0 +1,86 @@
+---
+import "@/styles/global.css";
+import { siteConfig } from "@/config/site";
+import Analytics from "@/components/Analytics.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+  image?: string;
+};
+
+const { title = siteConfig.title, description = siteConfig.description, image } = Astro.props;
+const pageTitle = title === siteConfig.title ? title : `${title} | ${siteConfig.title}`;
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.url);
+const shareImageUrl = image ? new URL(image, siteConfig.url).toString() : undefined;
+---
+
+<!doctype html>
+<html lang={siteConfig.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.title} RSS`} href={new URL("/rss.xml", siteConfig.url)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.title} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {shareImageUrl && <meta property="og:image" content={shareImageUrl} />}
+    <meta name="twitter:card" content={shareImageUrl ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {shareImageUrl && <meta name="twitter:image" content={shareImageUrl} />}
+    <title>{pageTitle}</title>
+    <script is:inline>
+      const storedTheme = localStorage.getItem("theme") || "system";
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const resolvedTheme = storedTheme === "system" ? (prefersDark ? "dark" : "light") : storedTheme;
+      document.documentElement.dataset.theme = storedTheme;
+      if (resolvedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body class="bg-page text-text-primary antialiased">
+    <div class="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-5 sm:px-8">
+      <SiteHeader />
+      <main class="flex-1 py-10">
+        <slot />
+      </main>
+      <footer class="border-t border-border-soft py-6 text-sm text-text-muted">
+        <p>(c) {new Date().getFullYear()} {siteConfig.author.name}. Built with Astro.</p>
+      </footer>
+    </div>
+    <script>
+      const codeBlocks = document.querySelectorAll("pre");
+
+      for (const block of codeBlocks) {
+        if (block.querySelector("[data-copy-code]")) continue;
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Copy";
+        button.dataset.copyCode = "true";
+        button.className =
+          "absolute right-3 top-3 rounded-md border border-white/15 bg-white/10 px-2 py-1 text-xs font-medium text-white/80 backdrop-blur transition hover:bg-white/20 hover:text-white";
+
+        block.classList.add("relative");
+        block.append(button);
+
+        button.addEventListener("click", async () => {
+          const code = block.querySelector("code")?.textContent ?? "";
+          await navigator.clipboard.writeText(code);
+          button.textContent = "Copied";
+          window.setTimeout(() => {
+            button.textContent = "Copy";
+          }, 1200);
+        });
+      }
+    </script>
+    <Analytics />
+  </body>
+</html>

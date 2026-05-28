@@ -1,0 +1,24 @@
+---
+title: "从 Astro 开始搭建个人博客"
+description: "记录这个个人博客的第一步：用 Astro、MDX 和 Tailwind CSS 建立一个长期可维护的写作空间。"
+pubDate: 2026-05-18
+updatedDate: 2026-05-18
+tags: ["Astro", "博客", "MDX"]
+draft: false
+featured: true
+---
+
+这是博客内容系统的第一篇示例文章。它用于验证 MDX、frontmatter schema、标签、精选状态和发布日期字段都能被 Astro Content Collections 正确读取。
+
+## 为什么选择 Astro
+
+Astro 很适合内容优先的网站。文章页默认可以生成静态 HTML，只有真正需要交互的区域才加载 JavaScript。
+
+```ts title="src/config/site.ts"
+export const siteConfig = {
+  lang: "zh-CN",
+  title: "Personal Blog",
+};
+```
+
+后续文章可以继续放在 `src/content/blog/` 下，每篇文章保留相同的 metadata 结构。

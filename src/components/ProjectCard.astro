@@ -1,0 +1,56 @@
+---
+import type { Project } from "@/lib/content";
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+const statusLabels = {
+  active: "进行中",
+  paused: "暂停",
+  completed: "已完成",
+  archived: "归档",
+};
+---
+
+<article class="rounded-lg border border-border-soft bg-surface-raised p-5 shadow-card transition hover:-translate-y-0.5 hover:border-border-strong">
+  <div class="flex items-start justify-between gap-3">
+    <div>
+      <h2 class="text-lg font-semibold text-text-primary">{project.data.name}</h2>
+      <p class="mt-1 text-xs font-medium text-text-muted">
+        开始于 {project.data.startDate.toLocaleDateString("zh-CN")}
+      </p>
+    </div>
+    <span class="rounded-md bg-success-soft px-2 py-1 text-xs font-medium text-accent-strong">
+      {statusLabels[project.data.status]}
+    </span>
+  </div>
+
+  <p class="mt-4 text-sm leading-6 text-text-muted">{project.data.description}</p>
+
+  <div class="mt-4 flex flex-wrap gap-2">
+    {
+      project.data.tags.map((tag) => (
+        <span class="rounded-md bg-accent-soft px-2 py-1 text-xs font-medium text-accent-strong">{tag}</span>
+      ))
+    }
+  </div>
+
+  {
+    (project.data.repoUrl || project.data.demoUrl) && (
+      <div class="mt-5 flex flex-wrap gap-3 text-sm font-medium">
+        {project.data.repoUrl && (
+          <a class="text-accent-strong transition hover:text-accent" href={project.data.repoUrl} target="_blank" rel="noreferrer">
+            Repository
+          </a>
+        )}
+        {project.data.demoUrl && (
+          <a class="text-accent-strong transition hover:text-accent" href={project.data.demoUrl} target="_blank" rel="noreferrer">
+            Demo
+          </a>
+        )}
+      </div>
+    )
+  }
+</article>

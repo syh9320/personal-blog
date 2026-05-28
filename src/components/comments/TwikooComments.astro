@@ -1,0 +1,21 @@
+---
+import { siteConfig } from "@/config/site";
+
+const config = siteConfig.comments.twikoo;
+const isConfigured = Boolean(config.envId);
+---
+
+{
+  isConfigured ? (
+    <>
+      <div id="twikoo" />
+      <script is:inline define:vars={{ envId: config.envId }}>
+        import("https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js").then(() => {
+          window.twikoo?.init({ envId, el: "#twikoo" });
+        });
+      </script>
+    </>
+  ) : (
+    <p class="text-sm text-text-muted">Twikoo comments are enabled but not configured.</p>
+  )
+}

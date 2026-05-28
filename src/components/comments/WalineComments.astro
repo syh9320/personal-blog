@@ -1,0 +1,21 @@
+---
+import { siteConfig } from "@/config/site";
+
+const config = siteConfig.comments.waline;
+const isConfigured = Boolean(config.serverUrl);
+---
+
+{
+  isConfigured ? (
+    <>
+      <div id="waline" />
+      <script is:inline define:vars={{ serverUrl: config.serverUrl }}>
+        import("https://unpkg.com/@waline/client@v3/dist/waline.js").then(({ init }) => {
+          init({ el: "#waline", serverURL: serverUrl, lang: "zh-CN" });
+        });
+      </script>
+    </>
+  ) : (
+    <p class="text-sm text-text-muted">Waline comments are enabled but not configured.</p>
+  )
+}

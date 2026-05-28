@@ -1,0 +1,76 @@
+---
+const modes = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "system", label: "System" },
+];
+---
+
+<div
+  class="inline-grid grid-cols-3 rounded-lg border border-border-soft bg-surface-raised p-1 text-xs font-medium text-text-muted shadow-card"
+  data-theme-toggle
+>
+  {
+    modes.map((mode) => (
+      <button
+        type="button"
+        class="rounded-md px-2.5 py-1.5 transition hover:text-text-primary data-[active=true]:bg-accent-soft data-[active=true]:text-accent-strong"
+        data-theme-option={mode.value}
+        aria-pressed="false"
+      >
+        {mode.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  type ThemeMode = "light" | "dark" | "system";
+
+  const storageKey = "theme";
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLElement>("[data-theme-toggle]");
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
+  const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function getStoredMode(): ThemeMode {
+    const value = localStorage.getItem(storageKey);
+    return value === "light" || value === "dark" || value === "system" ? value : "system";
+  }
+
+  function applyTheme(mode: ThemeMode) {
+    const resolvedMode = mode === "system" ? (media.matches ? "dark" : "light") : mode;
+
+    root.classList.toggle("dark", resolvedMode === "dark");
+    root.dataset.theme = mode;
+
+    for (const button of buttons) {
+      const isActive = button.dataset.themeOption === mode;
+      button.dataset.active = String(isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    }
+  }
+
+  function setTheme(mode: ThemeMode) {
+    localStorage.setItem(storageKey, mode);
+    applyTheme(mode);
+  }
+
+  toggle?.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const button = target.closest<HTMLButtonElement>("[data-theme-option]");
+    const mode = button?.dataset.themeOption;
+
+    if (mode === "light" || mode === "dark" || mode === "system") {
+      setTheme(mode);
+    }
+  });
+
+  media.addEventListener("change", () => {
+    if (getStoredMode() === "system") {
+      applyTheme("system");
+    }
+  });
+
+  applyTheme(getStoredMode());
+</script>

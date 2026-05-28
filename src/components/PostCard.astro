@@ -1,0 +1,27 @@
+---
+import type { BlogPost } from "@/lib/content";
+import { getPostHref } from "@/lib/content";
+
+type Props = {
+  post: BlogPost;
+};
+
+const { post } = Astro.props;
+---
+
+<article class="rounded-lg border border-border-soft bg-surface-raised p-5 shadow-card transition hover:-translate-y-0.5 hover:border-border-strong">
+  <a href={getPostHref(post)} class="block">
+    <p class="text-xs font-medium text-text-muted">{post.data.pubDate.toLocaleDateString("zh-CN")}</p>
+    <h2 class="mt-2 text-lg font-semibold text-text-primary">{post.data.title}</h2>
+    <p class="mt-2 text-sm leading-6 text-text-muted">{post.data.description}</p>
+  </a>
+  <div class="mt-4 flex flex-wrap gap-2">
+    {
+      post.data.tags.map((tag) => (
+        <a class="rounded-md bg-accent-soft px-2 py-1 text-xs font-medium text-accent-strong" href={`/tags/${encodeURIComponent(tag)}/`}>
+          {tag}
+        </a>
+      ))
+    }
+  </div>
+</article>
