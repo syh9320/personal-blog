@@ -69,5 +69,10 @@ Manual smoke checks on the deployed site:
 
 ## Blocked by
 
-- `02-github-repository-push` - the latest local commit must be pushed before Cloudflare Pages can import or redeploy the final code.
 - Cloudflare account access is required to import the GitHub repository and verify the assigned `*.pages.dev` URL.
+
+## Current evidence
+
+- `02-github-repository-push` is complete.
+- GitHub remote `main` has been pushed successfully.
+- Next required action is in the Cloudflare dashboard: import `syh9320/personal-blog`, configure the Astro build, set `PUBLIC_SITE_URL`, and deploy.
