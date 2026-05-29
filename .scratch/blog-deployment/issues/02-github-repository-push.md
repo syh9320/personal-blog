@@ -25,7 +25,17 @@ After this slice, the full codebase should be visible at `https://github.com/syh
 - Local `main` is currently ahead of `origin/main` with local deployment-progress commits that still need pushing.
 - `gh auth status` reports that the `syh9320` token is invalid.
 - `git ls-remote --heads origin main` fails with `SEC_E_NO_CREDENTIALS`.
-- The next step requires the user to re-authenticate GitHub credentials before pushing.
+- HTTPS authentication could not be repaired through `gh auth login`, `gh auth setup-git`, or Git Credential Manager.
+- A repo-specific SSH key was generated at `C:\Users\邵宇杭\.ssh\personal_blog_github_ed25519`.
+- The repository remote was changed to `git@github.com:syh9320/personal-blog.git`.
+- The repository-local `core.sshCommand` is configured to use `C:/Users/邵宇杭/.ssh/personal_blog_github_ed25519`.
+- The next step requires the user to add the generated public key to GitHub before pushing.
+
+Public key to add at `https://github.com/settings/keys`:
+
+```text
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBfjQhZuCLm5dt0/imFJ4A7WWE0VX/y8lTn+LnsXe/al 2634439099@qq.com
+```
 
 ## Acceptance criteria
 
@@ -36,10 +46,10 @@ After this slice, the full codebase should be visible at `https://github.com/syh
 
 ## Blocked by
 
-GitHub authentication is required. Re-run:
+GitHub SSH key authorization is required. Add this public key to GitHub:
 
-```powershell
-gh auth login -h github.com
+```text
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBfjQhZuCLm5dt0/imFJ4A7WWE0VX/y8lTn+LnsXe/al 2634439099@qq.com
 ```
 
 Then push:
