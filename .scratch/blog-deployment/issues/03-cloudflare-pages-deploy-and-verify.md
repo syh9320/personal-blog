@@ -1,4 +1,4 @@
-Status: ready-for-agent
+Status: blocked
 
 # 03-cloudflare-pages-deploy-and-verify
 
@@ -69,4 +69,5 @@ Manual smoke checks on the deployed site:
 
 ## Blocked by
 
-- `02-github-repository-push` — code must be on GitHub before Cloudflare Pages can import it
+- `02-github-repository-push` - the latest local commit must be pushed before Cloudflare Pages can import or redeploy the final code.
+- Cloudflare account access is required to import the GitHub repository and verify the assigned `*.pages.dev` URL.
