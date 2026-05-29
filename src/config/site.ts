@@ -2,18 +2,18 @@ const siteUrl = import.meta.env.PUBLIC_SITE_URL ?? "https://example.com";
 
 export const siteConfig = {
   lang: "zh-CN",
-  name: "Personal Blog",
-  title: "Personal Blog",
-  description: "A refined personal blog built with Astro, MDX, and Tailwind CSS.",
+  name: "OA",
+  title: "OA",
+  description: "写代码、看书、偶尔画画。一个安静的个人空间。",
   url: siteUrl,
   author: {
-    name: "Blog Author",
+    name: "OshinoAoko",
     avatar: "/images/avatar-placeholder.svg",
-    bio: "Writing about technology, projects, and long-form notes.",
+    bio: "写代码、看书、偶尔画画。在这里记录技术和日常。",
     links: [
       {
-        label: "GitHub",
-        href: "https://github.com/",
+        label: "个人主页",
+        href: "https://github.com/syh9320",
       },
     ],
   },

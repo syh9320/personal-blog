@@ -1,24 +1,50 @@
 ---
-title: "从 Astro 开始搭建个人博客"
-description: "记录这个个人博客的第一步：用 Astro、MDX 和 Tailwind CSS 建立一个长期可维护的写作空间。"
+title: "从零搭一个 Mizuki 风的个人博客"
+description: "记录从选型到上线的全过程：为什么是 Astro，为什么是 Mizuki，以及那些踩过的坑。"
 pubDate: 2026-05-18
 updatedDate: 2026-05-18
-tags: ["Astro", "博客", "MDX"]
+tags: ["Astro", "博客", "MDX", "Tailwind CSS", "Mizuki"]
 draft: false
 featured: true
 ---
 
-这是博客内容系统的第一篇示例文章。它用于验证 MDX、frontmatter schema、标签、精选状态和发布日期字段都能被 Astro Content Collections 正确读取。
+一直想有一个属于自己的写作空间。不是各种平台上的账号，而是真正意义上属于自己的域名和页面——可以完全控制每一行样式、每一个交互细节。
 
-## 为什么选择 Astro
+## 选型纠结
 
-Astro 很适合内容优先的网站。文章页默认可以生成静态 HTML，只有真正需要交互的区域才加载 JavaScript。
+一开始在两个方案之间摇摆：Hugo 还是 Astro。Hugo 快得离谱，模板生态也成熟，但模板定制起来总有一种"在别人的房子里装修"的感觉。Astro 更接近"从地基开始盖"，灵活性高出不少，而且默认零 JavaScript 的哲学很对我的胃口——一个博客本来就不应该塞满 JS。
 
-```ts title="src/config/site.ts"
-export const siteConfig = {
-  lang: "zh-CN",
-  title: "Personal Blog",
-};
+最终选了 Astro + MDX + Tailwind CSS 的组合。Mizuki 主题一直是我最喜欢的博客风格，但这次决定不直接 fork，而是参考它的视觉语言自己实现一遍。这个过程本身就是一种学习。
+
+## 为什么是 Mizuki
+
+Mizuki 给我的感觉是一种舒服的干净。不是极简到冷冰冰的那种干净，而是带点温度的、像一本排版讲究的纸质书。卡片式布局、柔和的阴影、恰到好处的圆角，再加上 Material Design 3 的色彩体系——这些细节组合在一起，让人愿意在页面上多停留一会儿。
+
+## 架构决策
+
+几个关键选择：
+
+- **Content Collections**：用 Zod schema 校验每篇文章的 frontmatter，写错字段会在构建时直接报错，不用担心上线后才发现 typo。
+- **Pagefind 搜索**：完全静态的搜索方案，构建时生成索引，不需要任何后端服务。
+- **评论和分析预留但不启用**：第一版专注于阅读体验，后续再按需接入 Giscus 或 Twikoo。
+
+```astro title="src/layouts/PostLayout.astro"
+<article class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem]">
+  <div class="prose prose-slate max-w-none dark:prose-invert">
+    <slot />
+  </div>
+  <aside class="lg:sticky lg:top-28">
+    <!-- 桌面端侧边栏目录 -->
+  </aside>
+</article>
 ```
 
-后续文章可以继续放在 `src/content/blog/` 下，每篇文章保留相同的 metadata 结构。
+## 部署
+
+部署选择了 Cloudflare Pages。一次 push 自动触发构建和部署，而且免费额度对于个人博客绰绰有余。`PUBLIC_SITE_URL` 环境变量控制所有 canonical URL、RSS 链接和 sitemap 地址，未来换了域名也只需要改这一个变量就够了。
+
+## 后续打算
+
+博客上线只是第一步。后面计划逐步加入文章头图、页面动效和一些二次元风格的小装饰——毕竟 Mizuki 的灵魂不只在布局上，还在那些微妙的氛围感里。不过在这之前，先把写作这件事坚持下来才是最重要的。
+
+加油吧。
