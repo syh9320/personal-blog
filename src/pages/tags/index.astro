@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHero from "@/components/PageHero.astro";
 import { getAllTags, getPostsByTag } from "@/lib/content";
 
 const tags = await getAllTags();
@@ -7,17 +8,13 @@ const tagCounts = await Promise.all(tags.map(async (tag) => [tag, (await getPost
 ---
 
 <BaseLayout title="Tags" description="按标签浏览文章">
-  <section class="rounded-lg border border-border-soft bg-surface p-6 shadow-card">
-    <p class="text-sm font-medium text-accent-strong">Tags</p>
-    <h1 class="mt-3 text-3xl font-semibold text-text-primary">标签</h1>
-    <p class="mt-3 text-sm leading-6 text-text-muted">用主题标签浏览已经发布的文章。</p>
-  </section>
+  <PageHero eyebrow="Tags" title="标签" description="用主题标签浏览已经发布的文章。标签会像贴纸一样，把相近的想法收在一起。" />
 
   <section class="mt-8 flex flex-wrap gap-3">
     {
       tagCounts.map(([tag, count]) => (
-        <a class="rounded-lg border border-border-soft bg-surface-raised px-4 py-3 text-sm font-medium text-text-primary shadow-card transition hover:border-border-strong hover:bg-accent-soft" href={`/tags/${encodeURIComponent(tag)}/`}>
-          {tag} <span class="text-text-muted">({count})</span>
+        <a class="rounded-lg border border-white/70 bg-surface/90 px-4 py-3 text-sm font-medium text-text-primary shadow-card backdrop-blur transition hover:border-accent hover:bg-accent-soft dark:border-white/10 dark:bg-surface/90" href={`/tags/${encodeURIComponent(tag)}/`}>
+          #{tag} <span class="text-text-muted">({count})</span>
         </a>
       ))
     }

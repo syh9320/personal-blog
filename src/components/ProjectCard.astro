@@ -14,7 +14,7 @@ const statusLabels = {
 };
 ---
 
-<article class="rounded-lg border border-border-soft bg-surface-raised p-5 shadow-card transition hover:-translate-y-0.5 hover:border-border-strong">
+<article class="rounded-lg border border-white/70 bg-surface/90 p-5 shadow-card backdrop-blur transition hover:-translate-y-0.5 hover:border-accent hover:shadow-soft dark:border-white/10 dark:bg-surface/90">
   <div class="flex items-start justify-between gap-3">
     <div>
       <h2 class="text-lg font-semibold text-text-primary">{project.data.name}</h2>
@@ -22,7 +22,7 @@ const statusLabels = {
         开始于 {project.data.startDate.toLocaleDateString("zh-CN")}
       </p>
     </div>
-    <span class="rounded-md bg-success-soft px-2 py-1 text-xs font-medium text-accent-strong">
+    <span class="rounded-md bg-success-soft px-2.5 py-1 text-xs font-medium text-accent-strong">
       {statusLabels[project.data.status]}
     </span>
   </div>
@@ -32,7 +32,7 @@ const statusLabels = {
   <div class="mt-4 flex flex-wrap gap-2">
     {
       project.data.tags.map((tag) => (
-        <span class="rounded-md bg-accent-soft px-2 py-1 text-xs font-medium text-accent-strong">{tag}</span>
+        <span class="rounded-md bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent-strong">#{tag}</span>
       ))
     }
   </div>
