@@ -4,38 +4,38 @@
 
 :root {
   color-scheme: light;
-  --page: #f6f7fb;
+  --page: #eef8f7;
   --surface: #ffffff;
-  --surface-raised: #fbfcff;
-  --surface-muted: #eef4f3;
-  --border-soft: #dde5e7;
-  --border-strong: #c4d1d6;
-  --text-primary: #202428;
-  --text-muted: #66727a;
-  --accent: #5a7fca;
-  --accent-strong: #345da8;
-  --accent-soft: #e6eefc;
-  --success-soft: #e2f3eb;
-  --shadow-soft: 0 18px 50px rgb(45 58 75 / 10%);
-  --shadow-card: 0 10px 30px rgb(45 58 75 / 8%);
+  --surface-raised: #fbfdff;
+  --surface-muted: #e7f5f4;
+  --border-soft: #d8e7e7;
+  --border-strong: #a9cfd0;
+  --text-primary: #243036;
+  --text-muted: #6c7a82;
+  --accent: #4ec5c1;
+  --accent-strong: #178d91;
+  --accent-soft: #ddf6f5;
+  --success-soft: #fff0f5;
+  --shadow-soft: 0 20px 60px rgb(68 130 145 / 16%);
+  --shadow-card: 0 12px 32px rgb(68 130 145 / 11%);
 }
 
 :root.dark {
   color-scheme: dark;
-  --page: #111418;
-  --surface: #191f25;
-  --surface-raised: #202832;
-  --surface-muted: #182a2d;
-  --border-soft: #2d3944;
-  --border-strong: #43515e;
+  --page: #10161c;
+  --surface: #172027;
+  --surface-raised: #1d2a33;
+  --surface-muted: #14292c;
+  --border-soft: #2c3d45;
+  --border-strong: #4a666c;
   --text-primary: #f4f7fb;
-  --text-muted: #a8b4be;
-  --accent: #9ab8ff;
-  --accent-strong: #c5d6ff;
-  --accent-soft: #243553;
-  --success-soft: #203b32;
-  --shadow-soft: 0 18px 50px rgb(0 0 0 / 28%);
-  --shadow-card: 0 10px 30px rgb(0 0 0 / 22%);
+  --text-muted: #aebcc3;
+  --accent: #6ee7e0;
+  --accent-strong: #a8fff6;
+  --accent-soft: #163a42;
+  --success-soft: #3a2638;
+  --shadow-soft: 0 20px 60px rgb(0 0 0 / 34%);
+  --shadow-card: 0 12px 32px rgb(0 0 0 / 25%);
 }
 
 html {
@@ -48,7 +48,9 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(180deg, var(--surface-muted) 0, transparent 280px),
+    radial-gradient(circle at 12% 8%, rgb(255 210 226 / 45%), transparent 24rem),
+    radial-gradient(circle at 82% 14%, rgb(116 223 219 / 35%), transparent 25rem),
+    linear-gradient(180deg, var(--surface-muted) 0, transparent 360px),
     var(--page);
 }
 

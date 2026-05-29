@@ -5,3 +5,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Local source images copied into public assets after selection
+/Konachan.com - 370289 sample (1).jpg

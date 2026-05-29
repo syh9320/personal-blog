@@ -1,17 +1,31 @@
 ---
 import { siteConfig } from "@/config/site";
 
-const tags = ["Astro", "MDX", "Design", "Projects"];
+const tags = ["Astro", "MDX", "Design", "Life"];
 ---
 
-<aside class="rounded-lg border border-border-soft bg-surface p-6 shadow-card">
-  <img class="h-16 w-16 rounded-lg border border-border-soft bg-accent-soft" src={siteConfig.author.avatar} alt="" />
-  <h2 class="mt-4 text-lg font-semibold text-text-primary">{siteConfig.author.name}</h2>
-  <p class="mt-2 text-sm leading-6 text-text-muted">{siteConfig.author.bio}</p>
+<aside class="rounded-lg border border-white/70 bg-surface/90 p-6 shadow-card backdrop-blur dark:border-white/10 dark:bg-surface/90">
+  <div class="flex items-center gap-4">
+    <img class="h-16 w-16 rounded-lg border border-border-soft bg-accent-soft p-1" src={siteConfig.author.avatar} alt="" />
+    <div>
+      <h2 class="text-lg font-semibold text-text-primary">{siteConfig.author.name}</h2>
+      <p class="mt-1 text-xs font-medium text-accent-strong">Personal room</p>
+    </div>
+  </div>
+  <p class="mt-5 text-sm leading-7 text-text-muted">{siteConfig.author.bio}</p>
   <div class="mt-5 flex flex-wrap gap-2">
     {
       tags.map((tag) => (
         <span class="rounded-md bg-accent-soft px-3 py-1 text-xs font-medium text-accent-strong">{tag}</span>
+      ))
+    }
+  </div>
+  <div class="mt-5 flex flex-wrap gap-3 text-sm font-medium">
+    {
+      siteConfig.author.links.map((link) => (
+        <a class="text-accent-strong transition hover:text-accent" href={link.href} target="_blank" rel="noreferrer">
+          {link.label}
+        </a>
       ))
     }
   </div>

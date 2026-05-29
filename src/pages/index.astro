@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
+import ProfileCard from "@/components/ProfileCard.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { siteConfig } from "@/config/site";
 import { getAllTags, getFeaturedPosts, getFeaturedProjects, getPublishedPosts } from "@/lib/content";
@@ -12,86 +13,93 @@ const [featuredPosts, recentPosts, featuredProjects, tags] = await Promise.all([
   getAllTags(),
 ]);
 
+const streamPosts = (featuredPosts.length > 0 ? featuredPosts : recentPosts).slice(0, 4);
 const visibleRecentPosts = recentPosts.slice(0, 3);
-const visibleTags = tags.slice(0, 8);
+const visibleTags = tags.slice(0, 10);
 ---
 
 <BaseLayout>
-  <section class="grid gap-6 lg:grid-cols-[1.45fr_0.85fr]">
-    <div class="rounded-lg border border-border-soft bg-surface-raised p-8 shadow-soft">
-      <p class="text-sm font-medium text-accent-strong">Astro + MDX personal blog</p>
-      <h1 class="mt-4 max-w-3xl text-4xl font-semibold tracking-normal text-text-primary sm:text-5xl">
-        {siteConfig.author.name}
-      </h1>
-      <p class="mt-5 max-w-2xl text-base leading-8 text-text-muted">{siteConfig.author.bio}</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a class="rounded-md bg-accent px-4 py-2 text-sm font-medium text-white shadow-card transition hover:opacity-90" href="/blog">
-          阅读文章
-        </a>
-        <a class="rounded-md border border-border-soft px-4 py-2 text-sm font-medium text-text-primary transition hover:bg-accent-soft" href="/projects">
-          查看项目
-        </a>
-      </div>
-      <div class="mt-7 flex flex-wrap gap-3 text-sm font-medium">
-        {
-          siteConfig.author.links.map((link) => (
-            <a class="text-accent-strong transition hover:text-accent" href={link.href} target="_blank" rel="noreferrer">
-              {link.label}
-            </a>
-          ))
-        }
-      </div>
-    </div>
-
-    <aside class="rounded-lg border border-border-soft bg-surface p-6 shadow-card">
-      <img class="h-20 w-20 rounded-lg border border-border-soft bg-accent-soft" src={siteConfig.author.avatar} alt="" />
-      <h2 class="mt-5 text-lg font-semibold text-text-primary">常写主题</h2>
-      <p class="mt-2 text-sm leading-6 text-text-muted">从长期写作中沉淀技术、项目和个人笔记。</p>
-      <div class="mt-5 flex flex-wrap gap-2">
-        {
-          visibleTags.map((tag) => (
-            <a class="rounded-md bg-accent-soft px-3 py-1 text-xs font-medium text-accent-strong" href={`/tags/${encodeURIComponent(tag)}/`}>
-              {tag}
-            </a>
-          ))
-        }
-      </div>
-    </aside>
-  </section>
-
-  <section class="mt-8 grid gap-6 lg:grid-cols-[1fr_1fr]">
-    <div class="rounded-lg border border-border-soft bg-surface p-6 shadow-card">
-      <div class="flex items-center justify-between gap-4">
-        <h2 class="text-lg font-semibold text-text-primary">精选文章</h2>
-        <a class="text-sm font-medium text-accent-strong" href="/blog">全部文章</a>
-      </div>
-      <div class="mt-5 space-y-4">
-        {featuredPosts.map((post) => <PostCard post={post} />)}
-      </div>
-    </div>
-
-    <div class="rounded-lg border border-border-soft bg-surface p-6 shadow-card">
-      <h2 class="text-lg font-semibold text-text-primary">最近更新</h2>
-      <div class="mt-5 space-y-3">
-        {
-          visibleRecentPosts.map((post) => (
-            <a class="block rounded-lg border border-border-soft bg-surface-raised p-4 shadow-card transition hover:border-border-strong hover:bg-accent-soft" href={`/blog/${post.id.replace(/\.(md|mdx)$/i, "")}/`}>
-              <p class="text-sm font-semibold text-text-primary">{post.data.title}</p>
-              <p class="mt-1 text-xs text-text-muted">{post.data.pubDate.toLocaleDateString("zh-CN")}</p>
-            </a>
-          ))
-        }
+  <section class="relative -mt-4 overflow-hidden rounded-lg border border-white/70 bg-surface shadow-soft dark:border-white/10">
+    <img class="absolute inset-0 h-full w-full object-cover" src={siteConfig.hero.image} alt="" fetchpriority="high" />
+    <div class="absolute inset-0 bg-gradient-to-r from-black/55 via-black/22 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-page via-transparent to-white/10"></div>
+    <div class="relative flex min-h-[28rem] items-end px-6 py-10 sm:px-10 lg:min-h-[34rem]">
+      <div class="max-w-2xl text-white drop-shadow">
+        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-100">{siteConfig.hero.eyebrow}</p>
+        <h1 class="mt-4 text-4xl font-semibold tracking-normal sm:text-6xl">{siteConfig.hero.title}</h1>
+        <p class="mt-5 max-w-xl text-base leading-8 text-white/90 sm:text-lg">{siteConfig.hero.subtitle}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="rounded-md bg-white/90 px-4 py-2 text-sm font-semibold text-accent-strong shadow-card transition hover:bg-white" href="/blog">
+            阅读文章
+          </a>
+          <a class="rounded-md border border-white/60 bg-white/20 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/25" href="/projects">
+            查看项目
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="mt-8 rounded-lg border border-border-soft bg-surface p-6 shadow-card">
-    <div class="flex items-center justify-between gap-4">
-      <h2 class="text-lg font-semibold text-text-primary">精选项目</h2>
-      <a class="text-sm font-medium text-accent-strong" href="/projects">全部项目</a>
+  <section class="mt-8 grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
+    <div class="space-y-5 lg:sticky lg:top-28 lg:self-start">
+      <ProfileCard />
+      <aside class="rounded-lg border border-white/70 bg-surface/90 p-5 shadow-card backdrop-blur dark:border-white/10 dark:bg-surface/90">
+        <h2 class="text-sm font-semibold text-text-primary">标签</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {
+            visibleTags.map((tag) => (
+              <a class="rounded-md bg-accent-soft px-3 py-1 text-xs font-medium text-accent-strong transition hover:bg-success-soft" href={`/tags/${encodeURIComponent(tag)}/`}>
+                {tag}
+              </a>
+            ))
+          }
+        </div>
+      </aside>
     </div>
-    <div class="mt-5 grid gap-4 sm:grid-cols-2">
-      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+
+    <div class="min-w-0 space-y-6">
+      <section class="rounded-lg border border-white/70 bg-surface/90 p-5 shadow-card backdrop-blur dark:border-white/10 dark:bg-surface/90">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p class="text-sm font-semibold text-accent-strong">Featured posts</p>
+            <h2 class="mt-2 text-2xl font-semibold text-text-primary">最近想写下来的事</h2>
+          </div>
+          <a class="text-sm font-semibold text-accent-strong transition hover:text-accent" href="/blog">全部文章</a>
+        </div>
+      </section>
+
+      <div class="space-y-5">
+        {streamPosts.map((post) => <PostCard post={post} />)}
+      </div>
+
+      <section class="grid gap-5 xl:grid-cols-2">
+        <div class="rounded-lg border border-white/70 bg-surface/90 p-5 shadow-card backdrop-blur dark:border-white/10 dark:bg-surface/90">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-lg font-semibold text-text-primary">最近更新</h2>
+            <a class="text-sm font-semibold text-accent-strong" href="/archive">归档</a>
+          </div>
+          <div class="mt-5 space-y-3">
+            {
+              visibleRecentPosts.map((post) => (
+                <a class="block rounded-lg border border-border-soft bg-surface-raised p-4 shadow-card transition hover:border-accent hover:bg-accent-soft" href={`/blog/${post.id.replace(/\.(md|mdx)$/i, "")}/`}>
+                  <p class="text-sm font-semibold text-text-primary">{post.data.title}</p>
+                  <p class="mt-1 text-xs text-text-muted">{post.data.pubDate.toLocaleDateString("zh-CN")}</p>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="rounded-lg border border-white/70 bg-surface/90 p-5 shadow-card backdrop-blur dark:border-white/10 dark:bg-surface/90">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-lg font-semibold text-text-primary">精选项目</h2>
+            <a class="text-sm font-semibold text-accent-strong" href="/projects">全部项目</a>
+          </div>
+          <div class="mt-5 space-y-4">
+            {featuredProjects.map((project) => <ProjectCard project={project} />)}
+          </div>
+        </div>
+      </section>
     </div>
   </section>
 </BaseLayout>

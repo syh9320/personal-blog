@@ -1,19 +1,28 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
+import { siteConfig } from "@/config/site";
 import { getPublishedPosts } from "@/lib/content";
 
 const posts = await getPublishedPosts();
 ---
 
 <BaseLayout title="Blog" description="所有已发布文章">
-  <section class="rounded-lg border border-border-soft bg-surface p-6 shadow-card">
-    <p class="text-sm font-medium text-accent-strong">Blog</p>
-    <h1 class="mt-3 text-3xl font-semibold text-text-primary">所有文章</h1>
-    <p class="mt-3 max-w-2xl text-sm leading-6 text-text-muted">这里收集所有已发布的文章，草稿会保留在内容目录中但不会出现在列表里。</p>
+  <section class="relative overflow-hidden rounded-lg border border-white/70 bg-surface p-6 shadow-soft dark:border-white/10 sm:p-8">
+    <div class="absolute inset-0 opacity-[0.18]">
+      <img class="h-full w-full object-cover" src={siteConfig.hero.image} alt="" />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/95 to-surface/70"></div>
+    <div class="relative">
+      <p class="text-sm font-semibold text-accent-strong">Blog archive</p>
+      <h1 class="mt-3 text-3xl font-semibold text-text-primary sm:text-4xl">所有文章</h1>
+      <p class="mt-4 max-w-2xl text-sm leading-7 text-text-muted">
+        这里收集所有已经发布的文章。封面图会让重点文章更有 Mizuki 风格，没有封面的文章也会保持清爽的阅读卡片。
+      </p>
+    </div>
   </section>
 
-  <section class="mt-8 grid gap-5 md:grid-cols-2">
+  <section class="mt-8 space-y-5">
     {posts.map((post) => <PostCard post={post} />)}
   </section>
 </BaseLayout>

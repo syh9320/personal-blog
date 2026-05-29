@@ -1,4 +1,4 @@
-Status: ready-for-agent
+Status: done
 
 # Anime / Mizuki-Inspired Frontend Refresh PRD
 
@@ -119,3 +119,18 @@ The user selected the following design decisions during grilling:
 - First-stage scope: homepage and blog index.
 
 An initial candidate anime image has already been provided locally and copied into the public image assets during the interrupted implementation attempt. The implementation should decide whether to keep that copied asset, rename or optimize it, and avoid committing unnecessary duplicate source files.
+
+## Completion Evidence
+
+- The first-stage refresh was implemented without migrating to the Mizuki theme.
+- The homepage now uses the selected anime banner as a configurable hero image.
+- The header now uses a floating translucent glass treatment.
+- The homepage now follows a banner-first layout with a lightweight profile/sidebar area and post stream.
+- Blog post metadata now supports optional cover images.
+- Article cards now render cover images when present and keep a text-first fallback when absent.
+- The blog index now shares the upgraded card language.
+- The root source image is ignored; the deployed asset lives under public site images.
+- `npm run build` passed with `PUBLIC_SITE_URL=https://personal-blog-97i.pages.dev`.
+- `npm run verify:deploy` passed with `PUBLIC_SITE_URL=https://personal-blog-97i.pages.dev`.
+- `npm run test:pipeline` passed with `PUBLIC_SITE_URL=https://personal-blog-97i.pages.dev`.
+- Local preview smoke check confirmed `/`, `/blog/`, and `/images/hero/laundry-room.jpg` render the expected hero/card assets.

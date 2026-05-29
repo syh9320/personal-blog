@@ -17,6 +17,12 @@ export const siteConfig = {
       },
     ],
   },
+  hero: {
+    eyebrow: "Anime-inspired personal blog",
+    title: "OshinoAoko 的房间",
+    subtitle: "写代码、看书、记录日常，把技术和喜欢的东西慢慢收进同一个空间。",
+    image: "/images/hero/laundry-room.jpg",
+  },
   nav: [
     {
       label: "Home",
