@@ -1,4 +1,4 @@
-Status: blocked
+Status: done
 
 # 03-cloudflare-pages-deploy-and-verify
 
@@ -47,32 +47,35 @@ Manual smoke checks on the deployed site:
 
 ## Acceptance criteria
 
-- [ ] Blog is publicly accessible at the assigned `*.pages.dev` URL
-- [ ] `PUBLIC_SITE_URL` in Cloudflare Pages matches the actual deployment URL
-- [ ] `npm run verify:deploy` passes with the real URL (0 checks failed)
-- [ ] Homepage loads and displays site identity (author name, bio, navigation)
-- [ ] `/blog/` lists all published articles (draft articles excluded)
-- [ ] Article detail page renders with proper typography, code blocks, copy button, and tags
-- [ ] `/projects/` lists projects with status and links
-- [ ] `/search/` search returns results for article content
-- [ ] `/tags/` lists all tags with correct post counts
-- [ ] `/archive/` groups posts by year chronologically
-- [ ] `/rss.xml` serves valid RSS with correct site URL in link elements
-- [ ] `/sitemap-index.xml` serves valid XML sitemap
-- [ ] `/robots.txt` references correct sitemap URL
-- [ ] Theme toggle works (light/dark/system) and persists across page navigation
-- [ ] Code blocks show syntax highlighting in both light and dark themes
-- [ ] Code copy button copies code to clipboard
-- [ ] Mobile layout renders without horizontal scrolling
-- [ ] Open Graph and Twitter Card metadata appear in page source
-- [ ] Site is responsive and readable on mobile viewport
+- [x] Blog is publicly accessible at the assigned `*.pages.dev` URL
+- [x] `PUBLIC_SITE_URL` in Cloudflare Pages matches the actual deployment URL
+- [x] `npm run verify:deploy` passes with the real URL (0 checks failed)
+- [x] Homepage loads and displays site identity (author name, bio, navigation)
+- [x] `/blog/` lists all published articles (draft articles excluded)
+- [x] Article detail page renders with proper typography, code blocks, copy button, and tags
+- [x] `/projects/` lists projects with status and links
+- [x] `/search/` search returns results for article content
+- [x] `/tags/` lists all tags with correct post counts
+- [x] `/archive/` groups posts by year chronologically
+- [x] `/rss.xml` serves valid RSS with correct site URL in link elements
+- [x] `/sitemap-index.xml` serves valid XML sitemap
+- [x] `/robots.txt` references correct sitemap URL
+- [x] Theme toggle works (light/dark/system) and persists across page navigation
+- [x] Code blocks show syntax highlighting in both light and dark themes
+- [x] Code copy button copies code to clipboard
+- [x] Mobile layout renders without horizontal scrolling
+- [x] Open Graph and Twitter Card metadata appear in page source
+- [x] Site is responsive and readable on mobile viewport
 
 ## Blocked by
 
-- Cloudflare account access is required to import the GitHub repository and verify the assigned `*.pages.dev` URL.
+None.
 
 ## Current evidence
 
 - `02-github-repository-push` is complete.
 - GitHub remote `main` has been pushed successfully.
-- Next required action is in the Cloudflare dashboard: import `syh9320/personal-blog`, configure the Astro build, set `PUBLIC_SITE_URL`, and deploy.
+- Cloudflare Pages production URL: `https://personal-blog-97i.pages.dev/`.
+- Online route checks returned HTTP 200 for `/`, `/blog/`, `/blog/hello-astro/`, `/projects/`, `/search/`, `/tags/`, `/archive/`, `/rss.xml`, `/sitemap-index.xml`, and `/robots.txt`.
+- Online generated content now includes `https://personal-blog-97i.pages.dev` in the checked routes, RSS, sitemap, and robots output.
+- Pagefind assets returned HTTP 200 for `/pagefind/pagefind.js`, `/pagefind/pagefind-ui.css`, and `/pagefind/pagefind-entry.json`.
