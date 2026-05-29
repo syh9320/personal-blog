@@ -6,24 +6,29 @@
   "scripts": {
     "dev": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro dev",
     "build": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro check && cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro build && pagefind --site dist",
-    "preview": "cross-env ASTRO_TELEMETRY_DISABLED=1 JITI_CACHE=false astro preview",
-    "verify:deploy": "node scripts/verify-deploy.mjs"
+    "preview": "npm run build && wrangler dev",
+    "verify:deploy": "node scripts/verify-deploy.mjs",
+    "generate-types": "wrangler types",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/check": "0.9.9",
+    "@astrojs/cloudflare": "^13.6.0",
     "@astrojs/mdx": "5.0.6",
     "@astrojs/rss": "4.0.18",
     "@astrojs/sitemap": "3.7.3",
     "@tailwindcss/typography": "0.5.19",
-    "autoprefixer": "10.4.23",
     "astro": "6.3.3",
+    "autoprefixer": "10.4.23",
     "cross-env": "10.1.0",
     "pagefind": "1.5.2",
     "postcss": "8.5.14",
     "tailwindcss": "3.4.17",
     "typescript": "6.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "wrangler": "^4.95.0"
+  },
   "overrides": {
     "vite": "^7.3.3"
   }
