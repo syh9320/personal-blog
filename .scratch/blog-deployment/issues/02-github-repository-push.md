@@ -41,7 +41,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBfjQhZuCLm5dt0/imFJ4A7WWE0VX/y8lTn+LnsXe/al
 
 ## Acceptance criteria
 
-- [ ] `gh auth status` reports logged in
+- [x] Git operations are authenticated through the repo-specific SSH key
 - [x] `git remote -v` shows origin pointing to `github.com/syh9320/personal-blog`
 - [x] `main` branch pushed successfully with all commits intact
 - [x] Repository is publicly visible (or private, per user preference)
