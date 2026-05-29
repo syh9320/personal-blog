@@ -1,4 +1,4 @@
-Status: ready-for-agent
+Status: done
 
 # 01-pipeline-test-suite
 
@@ -20,12 +20,12 @@ Follow the same check/pass/fail pattern used in `scripts/verify-deploy.mjs`: eac
 
 ## Acceptance criteria
 
-- [ ] Script runs successfully when all checks pass
-- [ ] Build failure test: temporarily injects invalid content, runs astro check, asserts non-zero exit code, then cleans up
-- [ ] Verify-deploy tests: asserts pass with valid URL, asserts pass with placeholder URL when `--allow-placeholder` flag is set
-- [ ] Script exits with code 1 when any check fails
-- [ ] Script uses the same output format as `verify-deploy.mjs` (check name, [ok]/[fail], optional detail)
-- [ ] Script cleans up all temporary files it creates, even on failure
+- [x] Script runs successfully when all checks pass
+- [x] Build failure test: temporarily injects invalid content, runs astro check, asserts non-zero exit code, then cleans up
+- [x] Verify-deploy tests: asserts pass with valid URL, asserts pass with placeholder URL when `--allow-placeholder` flag is set
+- [x] Script exits with code 1 when any check fails
+- [x] Script uses the same output format as `verify-deploy.mjs` (check name, [ok]/[fail], optional detail)
+- [x] Script cleans up all temporary files it creates, even on failure
 
 ## Blocked by
 

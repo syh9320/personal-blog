@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 const checks = [];
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(scriptDir, "..");
+const validSiteUrl = process.env.PUBLIC_SITE_URL ?? "https://personal-blog.pages.dev";
+const placeholderSiteUrl = "https://example.com";
 
 function check(name, passed, detail) {
   checks.push({ name, passed, detail });
@@ -79,6 +81,24 @@ function runWithTimeout(command, args, extraEnv, timeoutMs = 90_000) {
   });
 }
 
+function buildWith(siteUrl) {
+  console.log("Building dist with PUBLIC_SITE_URL=" + siteUrl + " ...");
+  return runSuccess("npm run build", {
+    env: { ...process.env, PUBLIC_SITE_URL: siteUrl },
+    timeout: 180_000,
+  });
+}
+
+function verifyWith(siteUrl, allowPlaceholder = false) {
+  const command = allowPlaceholder
+    ? "node scripts/verify-deploy.mjs --allow-placeholder"
+    : "node scripts/verify-deploy.mjs";
+
+  return runCapture(command, {
+    env: { ...process.env, PUBLIC_SITE_URL: siteUrl },
+  });
+}
+
 const blogDir = join(projectRoot, "src", "content", "blog");
 const invalidPostPath = join(blogDir, "__test-invalid.mdx");
 
@@ -105,25 +125,11 @@ process.on("SIGINT", () => {
 async function main() {
   console.log("=== Pipeline Tests ===\n");
 
-  const siteUrl = process.env.PUBLIC_SITE_URL ?? "https://example.com";
-  const isPlaceholder =
-    new URL(siteUrl).hostname === "example.com" ||
-    new URL(siteUrl).hostname.endsWith(".example") ||
-    new URL(siteUrl).hostname.includes("your-domain");
-
-  const env = { ...process.env, PUBLIC_SITE_URL: siteUrl };
-
-  console.log("Building dist with PUBLIC_SITE_URL=" + siteUrl + " ...");
-  const buildOk = runSuccess("npm run build", {
-    env,
-    timeout: 180_000,
-  });
-
-  check("npm run build succeeds", buildOk, buildOk ? undefined : `PUBLIC_SITE_URL=${siteUrl}`);
+  const buildOk = buildWith(validSiteUrl);
+  check("npm run build succeeds with valid PUBLIC_SITE_URL", buildOk, buildOk ? undefined : `PUBLIC_SITE_URL=${validSiteUrl}`);
 
   const distDir = join(projectRoot, "dist");
   const distExists = existsSync(distDir);
-
   check("dist directory exists", distExists, "Expected: dist/");
 
   if (distExists) {
@@ -144,31 +150,37 @@ async function main() {
   }
 
   if (buildOk) {
-    if (isPlaceholder) {
-      const rejectResult = runCapture("node scripts/verify-deploy.mjs", { env });
-      check(
-        "verify:deploy rejects placeholder URL (expected: fail)",
-        !rejectResult.ok,
-        rejectResult.ok ? "Expected non-zero exit but passed" : `Correctly rejected placeholder: ${siteUrl}`,
-      );
-
-      const bypassResult = runCapture("node scripts/verify-deploy.mjs --allow-placeholder", { env });
-      check(
-        "verify:deploy passes with --allow-placeholder",
-        bypassResult.ok,
-        bypassResult.ok ? undefined : bypassResult.output,
-      );
-    } else {
-      const verifyResult = runCapture("node scripts/verify-deploy.mjs", { env });
-      check(
-        "verify:deploy passes with valid PUBLIC_SITE_URL",
-        verifyResult.ok,
-        verifyResult.ok ? undefined : verifyResult.output,
-      );
-    }
+    const verifyResult = verifyWith(validSiteUrl);
+    check(
+      "verify:deploy passes with valid PUBLIC_SITE_URL",
+      verifyResult.ok,
+      verifyResult.ok ? undefined : verifyResult.output,
+    );
   } else {
-    check("verify:deploy tests skipped — build failed", true, "Cannot verify without successful build");
+    check("verify:deploy with valid URL skipped - build failed", true, "Cannot verify without successful build");
   }
+
+  const placeholderBuildOk = buildWith(placeholderSiteUrl);
+  check("npm run build succeeds with placeholder PUBLIC_SITE_URL", placeholderBuildOk);
+
+  if (placeholderBuildOk) {
+    const rejectResult = verifyWith(placeholderSiteUrl);
+    check(
+      "verify:deploy rejects placeholder URL",
+      !rejectResult.ok,
+      rejectResult.ok ? "Expected non-zero exit but passed" : `Correctly rejected ${placeholderSiteUrl}`,
+    );
+
+    const bypassResult = verifyWith(placeholderSiteUrl, true);
+    check(
+      "verify:deploy passes with --allow-placeholder",
+      bypassResult.ok,
+      bypassResult.ok ? undefined : bypassResult.output,
+    );
+  }
+
+  const restoreBuildOk = buildWith(validSiteUrl);
+  check("dist restored with valid PUBLIC_SITE_URL", restoreBuildOk);
 
   createInvalidPost();
 
@@ -182,16 +194,10 @@ async function main() {
   );
 
   removeInvalidPost();
-
   check("invalid test post cleaned up", !existsSync(invalidPostPath));
 
   const cleanCheckResult = await runWithTimeout("npx", ["astro", "check"], checkEnv);
-
-  check(
-    "astro check passes with valid content",
-    cleanCheckResult.passed,
-    cleanCheckResult.reason,
-  );
+  check("astro check passes with valid content", cleanCheckResult.passed, cleanCheckResult.reason);
 
   const failed = checks.filter((item) => !item.passed);
 
